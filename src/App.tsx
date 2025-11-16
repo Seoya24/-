@@ -6,7 +6,8 @@ import Home from "./pages/Home";
 import FreeBoard from "./pages/FreeBoard";
 import WritePost from "./pages/WritePost";
 import PartyBoard from "./pages/PartyBoard";
-import WriteParty from "./pages/WriteParty"; // ✅ 추가
+import WriteParty from "./pages/WriteParty";
+import Login from "./pages/Login";  // ⭐ 추가
 
 function App() {
   return (
@@ -17,10 +18,12 @@ function App() {
       {/* ✅ 페이지 라우팅 */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/board" element={<FreeBoard />} /> {/* 자유게시판 */}
-        <Route path="/write" element={<WritePost />} /> {/* 게시글 작성 */}
-        <Route path="/party" element={<PartyBoard />} /> {/* 팟 구하기 */}
-        <Route path="/party/write" element={<WriteParty />} /> {/* 팟 작성 */}
+        <Route path="/board" element={<FreeBoard />} /> 
+        <Route path="/write" element={<WritePost />} /> 
+        <Route path="/party" element={<PartyBoard />} /> 
+        <Route path="/party/write" element={<WriteParty />} />
+
+        <Route path="/login" element={<Login />} /> {/* ⭐ 로그인 추가 */}
       </Routes>
     </BrowserRouter>
   );

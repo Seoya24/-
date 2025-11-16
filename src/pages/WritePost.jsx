@@ -55,9 +55,10 @@ export default function WritePost() {
           />
         </div>
 
-        <button type="submit" className="submit-btn">
-          게시하기
-        </button>
+        <button type="submit" className="write-submit-btn">
+           게시하기
+          </button>
+
       </form>
     </div>
   );
