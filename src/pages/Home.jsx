@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../assets/styles/home.css";
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const handlePosterClick = () => {
-    navigate("/booking");
+  // 📌 공연 ID를 받아 booking 페이지로 이동
+  const goBooking = (id) => {
+    navigate(`/booking/${id}`);
   };
 
   return (
@@ -17,7 +18,7 @@ export default function Home() {
           src="/poster.jpg"
           alt="뮤지컬 포스터"
           className="poster-image"
-          onClick={handlePosterClick}
+          onClick={() => goBooking(1)}   // 고유 ID 1번 공연
         />
       </div>
 
@@ -29,9 +30,28 @@ export default function Home() {
         <div className="department">
           <h3 className="dept-title">문화예술학부</h3>
           <div className="poster-grid">
-            <img src="/poster1.jpg" alt="빛, 나잖아" className="dept-poster" />
-            <img src="/poster2.jpg" alt="To The Light" className="dept-poster" />
-            <img src="/poster3.jpg" alt="도시" className="dept-poster" />
+
+            <img
+              src="/poster1.jpg"
+              alt="빛, 나잖아"
+              className="dept-poster"
+              onClick={() => goBooking(101)} // 공연 ID 예시
+            />
+
+            <img
+              src="/poster2.jpg"
+              alt="To The Light"
+              className="dept-poster"
+              onClick={() => goBooking(102)}
+            />
+
+            <img
+              src="/poster3.jpg"
+              alt="도시"
+              className="dept-poster"
+              onClick={() => goBooking(103)}
+            />
+
           </div>
         </div>
 
@@ -39,9 +59,9 @@ export default function Home() {
         <div className="department">
           <h3 className="dept-title">디자인영상학부</h3>
           <div className="poster-grid">
-            <div className="poster-placeholder"></div>
-            <div className="poster-placeholder"></div>
-            <div className="poster-placeholder"></div>
+            <div className="poster-placeholder" onClick={() => goBooking(201)}></div>
+            <div className="poster-placeholder" onClick={() => goBooking(202)}></div>
+            <div className="poster-placeholder" onClick={() => goBooking(203)}></div>
           </div>
         </div>
 
@@ -49,11 +69,12 @@ export default function Home() {
         <div className="department">
           <h3 className="dept-title">스포츠과학부</h3>
           <div className="poster-grid">
-            <div className="poster-placeholder"></div>
-            <div className="poster-placeholder"></div>
-            <div className="poster-placeholder"></div>
+            <div className="poster-placeholder" onClick={() => goBooking(301)}></div>
+            <div className="poster-placeholder" onClick={() => goBooking(302)}></div>
+            <div className="poster-placeholder" onClick={() => goBooking(303)}></div>
           </div>
         </div>
+
       </section>
     </div>
   );

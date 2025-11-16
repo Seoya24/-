@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./assets/styles/global.css";
 
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -7,24 +8,39 @@ import FreeBoard from "./pages/FreeBoard";
 import WritePost from "./pages/WritePost";
 import PartyBoard from "./pages/PartyBoard";
 import WriteParty from "./pages/WriteParty";
-import Login from "./pages/Login";  // ⭐ 추가
+import Login from "./pages/Login";
+import Booking from "./pages/Booking";
+import Ticket from "./pages/Ticket";
+import MyPage from "./pages/MyPage";
+import MyPageEdit from "./pages/MyPageEdit"; // ⭐ 반드시 추가!!
+
+import { UserProvider } from "./context/UserContext"; // ⭐ Provider import
+import PostApply from "./pages/PostApply";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* ✅ 항상 상단에 고정되는 헤더 */}
-      <Header />
 
-      {/* ✅ 페이지 라우팅 */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/board" element={<FreeBoard />} /> 
-        <Route path="/write" element={<WritePost />} /> 
-        <Route path="/party" element={<PartyBoard />} /> 
-        <Route path="/party/write" element={<WriteParty />} />
+      {/* ⭐ UserProvider로 감싸기 → useUser 정상 작동 */}
+      <UserProvider>
+        <Header />
 
-        <Route path="/login" element={<Login />} /> {/* ⭐ 로그인 추가 */}
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/board" element={<FreeBoard />} />
+          <Route path="/write" element={<WritePost />} />
+          <Route path="/party" element={<PartyBoard />} />
+          <Route path="/party/write" element={<WriteParty />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/booking/:showId" element={<Booking />} />
+          <Route path="/ticket/:ticketId" element={<Ticket />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage/edit" element={<MyPageEdit />} />
+          <Route path="/posting/apply" element={<PostApply />} />
+        </Routes>
+
+      </UserProvider>
+
     </BrowserRouter>
   );
 }

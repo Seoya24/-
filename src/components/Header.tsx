@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
+import "../assets/styles/header.css";
 
 export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -26,6 +26,7 @@ export default function Header() {
 
         {/* 가운데 메뉴 */}
         <nav className="header-center">
+          {/* Talk & Find */}
           <div
             className="menu-wrapper"
             onMouseEnter={() => handleMouseEnter("talk")}
@@ -40,16 +41,22 @@ export default function Header() {
             )}
           </div>
 
+          {/* Stage Manager */}
           <div
             className="menu-wrapper"
             onMouseEnter={() => handleMouseEnter("stage")}
             onMouseLeave={handleMouseLeave}
           >
             <span className="menu-item">Stage Manager</span>
+
             {activeMenu === "stage" && (
               <div className="dropdown">
                 <a className="dropdown-item" href="#">대관</a>
-                <a className="dropdown-item" href="#">포스팅신청</a>
+
+                {/* ⭐ 여기 안에 넣어야 한다! */}
+                <Link to="/posting/apply" className="dropdown-item">
+                  포스팅신청
+                </Link>
               </div>
             )}
           </div>
@@ -62,12 +69,14 @@ export default function Header() {
             <input type="text" placeholder="Search…" className="search-input" />
           </div>
 
-          {/* 로그인 버튼 → Link로 변경 */}
           <Link to="/login" className="login-btn">
             로그인
           </Link>
 
-          <img src="/icon.png" alt="icon" className="right-icon" />
+          {/* 마이페이지 이동 */}
+          <Link to="/mypage">
+            <img src="/icon.png" alt="my page" className="right-icon" />
+          </Link>
         </div>
 
       </div>

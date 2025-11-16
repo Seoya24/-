@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../App.css";
+import "../assets/styles/write.css";
 
 export default function WritePost() {
   const [title, setTitle] = useState("");

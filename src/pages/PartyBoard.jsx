@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../assets/styles/party.css";
 import { useNavigate } from "react-router-dom"; // ✅ 페이지 이동용
 
 export default function PartyBoard() {

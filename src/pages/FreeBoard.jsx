@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
+import "../assets/styles/board.css";
 
 export default function FreeBoard() {
   // ✅ 더미 게시글 (디자인 확인용)
