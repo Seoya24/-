@@ -9,31 +9,25 @@ export default function MyPage() {
   return (
     <div className="mypage-container">
 
-      {/* 프로필 영역 */}
+      {/* ================================
+          프로필 영역
+      ================================= */}
       <div className="mypage-profile-center">
-        
-        {/* ▼▼ 프로필 이미지 표시 부분 수정 ▼▼ */}
         <div className="mypage-profile-img">
-          {user?.profileImage ? (
-            <img src={user.profileImage} alt="profile" />
-          ) : null}
+          {user?.profileImage && <img src={user.profileImage} alt="profile" />}
         </div>
-        {/* ▲▲ 여기만 바뀌면 프로필 이미지 표시됨 ▲▲ */}
 
-        <h2 className="mypage-nickname">
-          {user?.nickname || "닉네임"}
-        </h2>
-
-        <p className="mypage-email">
-          {user?.email || "email@example.com"}
-        </p>
+        <h2 className="mypage-nickname">{user?.nickname || "닉네임"}</h2>
+        <p className="mypage-email">{user?.email || "email@example.com"}</p>
 
         <Link to="/mypage/edit">
           <button className="mypage-edit-btn">정보 수정</button>
         </Link>
       </div>
 
-      {/* 학부생 인증 카드 */}
+      {/* ================================
+          학부생 인증 카드
+      ================================= */}
       <div className="mypage-verify-card">
         <div className="verify-row">
           <span className="verify-label">학부생 인증</span>
@@ -46,7 +40,29 @@ export default function MyPage() {
 
       <hr className="mypage-divider" />
 
-      {/* 예매 내역 */}
+      {/* ================================
+          알림 목록
+      ================================= */}
+      {user.notifications?.length > 0 && (
+        <>
+          <h2 className="mypage-section-title">알림</h2>
+
+          <div className="mypage-notification-list">
+            {user.notifications.map((msg, index) => (
+              <div key={index} className="notification-item">
+                <span className="notification-dot"></span>
+                <p className="notification-text">{msg.message}</p>
+              </div>
+            ))}
+          </div>
+
+          <hr className="mypage-divider" />
+        </>
+      )}
+
+      {/* ================================
+          예매 내역
+      ================================= */}
       <h2 className="mypage-section-title">예매 내역</h2>
 
       <div className="mypage-ticket-box">

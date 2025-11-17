@@ -12,16 +12,17 @@ import Login from "./pages/Login";
 import Booking from "./pages/Booking";
 import Ticket from "./pages/Ticket";
 import MyPage from "./pages/MyPage";
-import MyPageEdit from "./pages/MyPageEdit"; // ⭐ 반드시 추가!!
-
-import { UserProvider } from "./context/UserContext"; // ⭐ Provider import
+import MyPageEdit from "./pages/MyPageEdit"; 
+import { UserProvider } from "./context/UserContext";
 import PostApply from "./pages/PostApply";
+import Rental from "./pages/Rental";
+
 
 function App() {
   return (
     <BrowserRouter>
 
-      {/* ⭐ UserProvider로 감싸기 → useUser 정상 작동 */}
+      {/* UserProvider로 감싸기 → useUser 정상 작동 */}
       <UserProvider>
         <Header />
 
@@ -37,6 +38,8 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/edit" element={<MyPageEdit />} />
           <Route path="/posting/apply" element={<PostApply />} />
+          <Route path="/rental" element={<Rental />} />
+
         </Routes>
 
       </UserProvider>

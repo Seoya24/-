@@ -1,13 +1,16 @@
 import React from "react";
 import "../assets/styles/party.css";
-import { useNavigate } from "react-router-dom"; // ✅ 페이지 이동용
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 export default function PartyBoard() {
-  const navigate = useNavigate(); // ✅ 이동 기능 초기화
+  const navigate = useNavigate();
+  const { user, addNotification } = useUser();
 
   const sampleParties = [
     {
       id: 1,
+      writerId: "user123", // 내가 쓴 글
       title: "같이 보실 분",
       date: "2025-11-15 (토) 19:00",
       members: "2 / 4",
@@ -15,6 +18,7 @@ export default function PartyBoard() {
     },
     {
       id: 2,
+      writerId: "user999", // 다른 사람
       title: "볼새럼",
       date: "2025-11-18 (화) 18:30",
       members: "1 / 3",
@@ -22,6 +26,7 @@ export default function PartyBoard() {
     },
     {
       id: 3,
+      writerId: "user888", // 다른 사람
       title: "같이 보실",
       date: "2025-11-20 (목) 20:00",
       members: "3 / 5",
@@ -35,7 +40,6 @@ export default function PartyBoard() {
       <p className="board-sub">오늘의 관람메이트를 찾아보세요</p>
 
       <div className="board-top">
-        {/* ✅ 클릭 시 작성 페이지로 이동 */}
         <button className="write-btn" onClick={() => navigate("/party/write")}>
           작성하기
         </button>
@@ -51,7 +55,22 @@ export default function PartyBoard() {
               </p>
               <p className="party-tags">{party.tags}</p>
             </div>
-            <button className="join-btn">참여하기</button>
+
+            {/* ⭐ 참여하기 버튼 조건부 렌더링 */}
+            {party.writerId !== user.id ? (
+              <button
+                className="join-btn"
+                onClick={() =>
+                  addNotification(`"${party.title}" 팟에 참여 요청이 도착했습니다.`)
+                }
+              >
+                참여하기
+              </button>
+            ) : (
+              <button className="join-btn disabled" disabled>
+                내가 쓴 글
+              </button>
+            )}
           </div>
         ))}
       </div>

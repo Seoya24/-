@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
+import { useUser } from "../context/UserContext";   // ⭐ 추가
 
 export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const { unreadCount } = useUser();   // ⭐ 읽지 않은 알림 수 가져오기
 
   const handleMouseEnter = (menu: string) => {
     setActiveMenu(menu);
@@ -51,12 +53,8 @@ export default function Header() {
 
             {activeMenu === "stage" && (
               <div className="dropdown">
-                <a className="dropdown-item" href="#">대관</a>
-
-                {/* ⭐ 여기 안에 넣어야 한다! */}
-                <Link to="/posting/apply" className="dropdown-item">
-                  포스팅신청
-                </Link>
+                <Link to="/rental" className="dropdown-item">대관</Link>
+                <Link to="/posting/apply" className="dropdown-item">포스팅신청</Link>
               </div>
             )}
           </div>
@@ -73,9 +71,13 @@ export default function Header() {
             로그인
           </Link>
 
-          {/* 마이페이지 이동 */}
-          <Link to="/mypage">
+          {/* ⭐ 마이페이지 아이콘 + 알림 뱃지 */}
+          <Link to="/mypage" className="mypage-wrapper">
             <img src="/icon.png" alt="my page" className="right-icon" />
+
+            {unreadCount > 0 && (
+              <span className="noti-badge">{unreadCount}</span>
+            )}
           </Link>
         </div>
 
