@@ -4,7 +4,7 @@ import "../assets/styles/mypage.css";
 import { Link } from "react-router-dom";
 
 export default function MyPage() {
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
 
   return (
     <div className="mypage-container">
@@ -31,14 +31,34 @@ export default function MyPage() {
       <div className="mypage-verify-card">
         <div className="verify-row">
           <span className="verify-label">학부생 인증</span>
-          <span className="verify-dot green"></span>
+          <span className={`verify-dot ${user.verified ? "green" : "red"}`}></span>
         </div>
 
-        <p className="verify-info">학번 : 20213416</p>
-        <p className="verify-info">전공 : 컴퓨터공학부</p>
-      </div>
+        {/* 🔥 인증된 경우에만 학번/전공 표시 */}
+        {user.verified && (
+          <>
+            <p className="verify-info">학번 : {user.studentId}</p>
+            <p className="verify-info">전공 : {user.major}</p>
+          </>
+        )}
 
-      <hr className="mypage-divider" />
+        {/* 🔥 인증 버튼 로직 */}
+        {!user.verified ? (
+          <button
+            className="verify-btn"
+            onClick={() => updateUser({ verified: true })}
+          >
+            인증하기
+          </button>
+        ) : (
+          <button
+            className="verify-btn verified"
+            onClick={() => updateUser({ verified: false })}
+          >
+            인증 취소
+          </button>
+        )}
+      </div>
 
       {/* ================================
           알림 목록

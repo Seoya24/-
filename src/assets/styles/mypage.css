@@ -119,6 +119,14 @@
     background: #162955;
   }
   
+  .verify-dot.green {
+  background-color: #00c853;
+}
+
+.verify-dot.red {
+  background-color: #ff5252;
+}
+
   /* ================================
      구분선
   ================================ */
