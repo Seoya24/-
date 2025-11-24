@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
-import { useUser } from "../context/UserContext";   // ⭐ 추가
+import { useUser } from "../context/UserContext";
+import type { Notification } from "../context/UserContext";  // ⭐ 추가
 
 export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const { unreadCount } = useUser();   // ⭐ 읽지 않은 알림 수 가져오기
+  const { user } = useUser(); // user 불러오기
 
-  const handleMouseEnter = (menu: string) => {
-    setActiveMenu(menu);
-  };
+  const handleMouseEnter = (menu: string) => setActiveMenu(menu);
+  const handleMouseLeave = () => setActiveMenu(null);
 
-  const handleMouseLeave = () => {
-    setActiveMenu(null);
-  };
+  // 🔔 읽지 않은 알림 수 계산
+  const unread =
+    user?.notifications
+      ? user.notifications.filter((n: Notification) => !n.read).length
+      : 0;
 
   return (
     <header className="header">
@@ -28,6 +30,7 @@ export default function Header() {
 
         {/* 가운데 메뉴 */}
         <nav className="header-center">
+
           {/* Talk & Find */}
           <div
             className="menu-wrapper"
@@ -50,7 +53,6 @@ export default function Header() {
             onMouseLeave={handleMouseLeave}
           >
             <span className="menu-item">Stage Manager</span>
-
             {activeMenu === "stage" && (
               <div className="dropdown">
                 <Link to="/rental" className="dropdown-item">대관</Link>
@@ -58,6 +60,7 @@ export default function Header() {
               </div>
             )}
           </div>
+
         </nav>
 
         {/* 오른쪽 영역 */}
@@ -67,17 +70,12 @@ export default function Header() {
             <input type="text" placeholder="Search…" className="search-input" />
           </div>
 
-          <Link to="/login" className="login-btn">
-            로그인
-          </Link>
+          <Link to="/login" className="login-btn">로그인</Link>
 
-          {/* ⭐ 마이페이지 아이콘 + 알림 뱃지 */}
+          {/* 마이페이지 + 🔔 알림배지 */}
           <Link to="/mypage" className="mypage-wrapper">
-            <img src="/icon.png" alt="my page" className="right-icon" />
-
-            {unreadCount > 0 && (
-              <span className="noti-badge">{unreadCount}</span>
-            )}
+            <img src="/icon.png" alt="mypage" className="right-icon" />
+            {unread > 0 && <span className="noti-badge">{unread}</span>}
           </Link>
         </div>
 

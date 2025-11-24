@@ -17,6 +17,7 @@ import { UserProvider } from "./context/UserContext";
 import PostApply from "./pages/PostApply";
 import Rental from "./pages/Rental";
 import PostDetail from "./pages/PostDetail";
+import AuthCallback from "./pages/AuthCallback";
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
           <Route path="/mypage/edit" element={<MyPageEdit />} />
           <Route path="/posting/apply" element={<PostApply />} />
           <Route path="/rental" element={<Rental />} />
+          <Route path="/auth/kakao" element={<AuthCallback />} />
+         <Route path="/auth/google" element={<AuthCallback />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

@@ -109,3 +109,22 @@
     background: #162955;
   }
   
+  .time-section {
+  display: flex;
+  gap: 12px;
+}
+
+.time-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid #c7c7c7;
+  background: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.time-btn.selected {
+  background: #0f1a44;
+  border-color: #0f1a44;
+  color: #fff;
+}
