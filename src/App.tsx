@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/board" element={<FreeBoard />} />
-          <Route path="/board/:id" element={<PostDetail />} />   
+          <Route path="/board/:id" element={<PostDetail />} />   {/* 상세 페이지 추가 */}
           <Route path="/write" element={<WritePost />} />
           <Route path="/party" element={<PartyBoard />} />
           <Route path="/party/write" element={<WriteParty />} />
