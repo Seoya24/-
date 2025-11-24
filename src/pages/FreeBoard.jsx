@@ -1,64 +1,79 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "../assets/styles/board.css";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
+import '../assets/styles/freeboard.css';
+
+// --- 더미 데이터 (Figma 디자인과 유사하게 목록 생성) ---
+const dummyPosts = [
+    { id: 1, title: '첫 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: true },
+    { id: 2, title: '두 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: true },
+    { id: 3, title: '세 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: true },
+    { id: 4, title: '네 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: true },
+    { id: 5, title: '다섯 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: true },
+    { id: 6, title: '여섯 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: false },
+    { id: 7, title: '일곱 번째 게시물 제목입니다.', content: '본문 내용', date: '2025 - 11 - 03', hasImage: false },
+];
+// --------------------------------------------------------
 
 export default function FreeBoard() {
-  // ✅ 더미 게시글 (디자인 확인용)
-  const samplePosts = [
-    {
-      id: 1,
-      title: "오늘 공연 정말 감동이었어요",
-      content: "배우님들 연기가 너무 좋았어요.",
-      date: "2025-11-03",
-    },
-    {
-      id: 2,
-      title: "무대 디자인이 너무 멋졌어요",
-      content: "조명과 음악이 완벽했어요.",
-      date: "2025-11-03",
-    },
-    {
-      id: 3,
-      title: "음향이 살짝 아쉬웠지만 전체적으로 최고!",
-      content: "다음에도 또 보고 싶어요.",
-      date: "2025-11-03",
-    },
-  ];
+    const [posts, setPosts] = useState(dummyPosts);
+    // 실제 프로젝트에서는 여기서 useState 대신 API를 호출하여 게시물 목록을 불러옵니다.
 
-  return (
-    <div className="board-container">
-      <h2 className="board-title">자유게시판</h2>
-      <p className="board-sub">
-        공연 관람자들의 이야기를 자유롭게 나누는 공간입니다
-      </p>
+    return (
+        <div className="board-page-container">
 
-      {/* 작성 버튼 */}
-      <div className="board-top">
-        <Link to="/write" className="write-btn">
-          작성하기
-        </Link>
-      </div>
-
-      {/* 게시글 리스트 */}
-      <div className="post-list">
-        {samplePosts.map((post) => (
-          <Link
-            key={post.id}
-            to={`/board/${post.id}`}   // 상세 페이지 이동
-            state={{ post }}           // 상세 데이터 전달
-            className="post-link"      // 기본 링크 스타일 제거
-          >
-            <div className="post-item">
-              <div className="post-info">
-                <h3 className="post-title">{post.title}</h3>
-                <p className="post-content">{post.content}</p>
-                <p className="post-date">{post.date}</p>
-              </div>
-              <div className="post-thumbnail">사진</div>
+            {/* 제목 및 설명 영역 */}
+            <div className="board-header">
+                <h1 className="board-title">자유게시판</h1>
+                <p className="board-description">공연 관람자들의 이야기를 자유롭게 나누는 공간입니다</p>
             </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+
+            <div className="board-content-wrapper">
+
+                {/* 작성하기 버튼 */}
+                <div className="board-actions">
+                    <Link to="/write" className="write-link">
+                        <button className="write-btn">작성하기</button>
+                    </Link>
+                </div>
+
+                {/* 게시물 목록 */}
+                <div className="post-list-section">
+                    {posts.map((post) => (
+                        // 상세 페이지로 이동하는 링크 (post/:postId 경로를 사용한다고 가정)
+                        <Link to={`/post/${post.id}`} key={post.id} className="post-card-link">
+                            <div className="post-card">
+
+                                {/* 1. 텍스트 정보 */}
+                                <div className="post-text-content">
+                                    <h3 className="post-card-title">{post.title}</h3>
+                                    {/* ⭐ 본문 내용 추가 (제목 바로 아래) */}
+                                    <p className="post-card-content">{post.content}</p>
+                                    <p className="post-card-content">{post.content}</p>
+                                    <div className="post-meta">
+                                        <span className="post-date">{post.date}</span>
+                                        <ChevronRight size={16} className="arrow-icon" />
+                                    </div>
+                                </div>
+
+                                {/* 2. 이미지 썸네일 (Figma의 '사진' 영역) */}
+                                <div className={`post-thumbnail ${!post.hasImage && 'no-image'}`}>
+                                    {post.hasImage ? (
+                                        <img
+                                            src={`https://placehold.co/160x160/cccccc/ffffff?text=사진`}
+                                            alt="게시물 썸네일"
+                                        />
+                                    ) : (
+                                        <span className="image-placeholder">사진 없음</span>
+                                    )}
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
+            {/* TODO: 페이지네이션 영역 추가 */}
+        </div>
+    );
 }
