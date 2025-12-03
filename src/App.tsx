@@ -18,6 +18,8 @@ import PostApply from "./pages/PostApply";
 import Rental from "./pages/Rental";
 import PostDetail from "./pages/PostDetail";
 import AuthCallback from "./pages/AuthCallback";
+import Support from './pages/Support';      // ⭐ Support 컴포넌트 추가
+import InquiryForm from './pages/InquiryForm'; // ⭐ InquiryForm 컴포넌트 추가
 
 function App() {
   return (
@@ -41,7 +43,12 @@ function App() {
           <Route path="/posting/apply" element={<PostApply />} />
           <Route path="/rental" element={<Rental />} />
           <Route path="/auth/kakao" element={<AuthCallback />} />
-         <Route path="/auth/google" element={<AuthCallback />} />
+          <Route path="/auth/google" element={<AuthCallback />} />
+                  {/* ⭐ 게시판 관련 라우트 추가  */}
+          <Route path="/post/:postId" element={<PostDetail />} />
+          {/* ⭐ 고객센터 관련 라우트 추가  */}
+          <Route path="/support/inquiry" element={<InquiryForm />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

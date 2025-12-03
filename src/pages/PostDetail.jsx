@@ -1,107 +1,148 @@
-import React, { useState } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import "../assets/styles/post-detail.css";
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { MessageSquare, ThumbsUp, Trash2, Edit } from 'lucide-react';
+import { useUser } from '../context/UserContext'; // 사용자 정보 및 로그인 상태 확인용
+import '../assets/styles/post-detail.css'; // 스타일 파일
+
+// --- 더미 데이터 (실제 프로젝트에서는 API로 대체됩니다) ---
+const dummyPost = {
+    id: '123',
+    title: '대학생을 위한 뮤지컬 팟 구해요! (레미제라블)',
+    content: '안녕하세요! 이번 주말 레미제라블 함께 보실 분 구합니다. 관심 있는 분들은 댓글 달아주세요! 저희는 총 3명이고 1명 더 모셔요. 쪽지 환영합니다.',
+    author: 'minswim2002',
+    authorProfile: 'https://placehold.co/50x50/1e3a8a/ffffff?text=M',
+    date: '2025.11.20',
+    views: 154,
+    likes: 28,
+    isAuthor: true, // 작성자 본인인지 여부
+};
+
+const initialComments = [
+    { id: 1, user: 'yuukiev', text: '저희도 보고 싶었는데! 혹시 비용 분담 어떻게 되나요?', date: '2025.11.20 14:30', isAuthor: false },
+    { id: 2, user: 'seoya24', text: '공연 잘 보고 오세요~!', date: '2025.11.20 15:00', isAuthor: false },
+];
+// --------------------------------------------------------
 
 export default function PostDetail() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { id } = useParams();
+    const { postId } = useParams(); // URL에서 게시물 ID 가져오기
+    const { user, isLoggedIn } = useUser();
 
-  // FreeBoard에서 넘어온 데이터
-  const postFromList = location.state?.post;
+    // 상태 관리
+    const [post, setPost] = useState(dummyPost);
+    const [comments, setComments] = useState(initialComments);
+    const [newComment, setNewComment] = useState('');
 
-  // 기본값(직접 URL로 접근했을 때 대비)
-  const [post] = useState(
-    postFromList || {
-      id,
-      title: "게시글 제목",
-      content: "게시글 내용이 여기에 표시됩니다.",
-      date: "2025-11-03",
-      image: null,
-    }
-  );
+    // 댓글 작성 핸들러
+    const handleSubmitComment = () => {
+        if (!isLoggedIn) {
+            alert('댓글을 작성하려면 로그인해야 합니다.');
+            return;
+        }
+        if (newComment.trim() === '') return;
 
-  // ⭐ 좋아요 기능
-  const [likeCount, setLikeCount] = useState(0);
-  const handleLike = () => setLikeCount((prev) => prev + 1);
+        const newCommentObj = {
+            id: Date.now(),
+            user: user.nickname,
+            text: newComment.trim(),
+            date: new Date().toLocaleString(),
+            isAuthor: true, // 사용자가 작성했으므로 true
+        };
 
-  // ⭐ 댓글 기능
-  const [commentInput, setCommentInput] = useState("");
-  const [comments, setComments] = useState([]);
-
-  const handleAddComment = () => {
-    if (!commentInput.trim()) return;
-
-    const newComment = {
-      id: Date.now(),
-      writer: "익명", // 추후 user.nickname으로 교체 가능
-      content: commentInput,
-      createdAt: new Date().toLocaleString(),
+        setComments([newCommentObj, ...comments]); // 새 댓글을 맨 위에 추가
+        setNewComment('');
     };
 
-    setComments((prev) => [newComment, ...prev]);
-    setCommentInput("");
-  };
+    // 좋아요 버튼 핸들러
+    const handleLike = () => {
+        if (!isLoggedIn) {
+            alert('좋아요를 누르려면 로그인해야 합니다.');
+            return;
+        }
+        // 실제로는 서버에 좋아요 요청을 보냅니다.
+        setPost(prev => ({ ...prev, likes: prev.likes + 1 }));
+    };
 
-  return (
-    <div className="post-detail-container">
+    if (!post) return <div>게시물을 찾을 수 없습니다.</div>; // 게시물이 없을 경우
 
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        ← 목록으로
-      </button>
+    return (
+        <div className="post-detail-page">
+            <div className="post-detail-container">
 
-      <div className="post-detail-card">
-        <h2 className="detail-title">{post.title}</h2>
-        <p className="detail-date">{post.date}</p>
+                {/* 1. 게시물 헤더 */}
+                <header className="post-header">
+                    <h1 className="post-title">{post.title}</h1>
+                    <div className="post-meta">
+                        <div className="author-info">
+                            <img src={post.authorProfile} alt={post.author} className="author-avatar" />
+                            <span className="author-name">{post.author}</span>
+                            <span className="post-date">{post.date}</span>
+                        </div>
+                        <div className="post-stats">
+                            <span>조회 {post.views}</span>
+                            <span>댓글 {comments.length}</span>
+                        </div>
+                    </div>
+                </header>
 
-        <div className="detail-content">{post.content}</div>
+                {/* 2. 게시물 본문 */}
+                <div className="post-content">
+                    <p>{post.content}</p>
+                </div>
 
-        {/* 이미지가 있다면 표시 */}
-        {post.image && (
-          <img src={post.image} alt="post" className="detail-image" />
-        )}
+                {/* 3. 액션 버튼 */}
+                <div className="post-actions">
+                    <button className="action-btn like-btn" onClick={handleLike}>
+                        <ThumbsUp size={18} />
+                        <span>좋아요 ({post.likes})</span>
+                    </button>
+                    {post.isAuthor && (
+                        <>
+                            <Link to={`/edit/${post.id}`} className="action-link">
+                                <Edit size={18} /> 수정
+                            </Link>
+                            <button className="action-link delete-btn">
+                                <Trash2 size={18} /> 삭제
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div> {/* post-detail-container end */}
 
-        {/* ⭐ 좋아요 */}
-        <div className="detail-like-row">
-          <button className="like-btn" onClick={handleLike}>❤️ 좋아요</button>
-          <span className="like-count">좋아요 {likeCount}개</span>
-        </div>
+            {/* 4. 댓글 섹션 */}
+            <div className="comments-section">
+                <h3 className="comments-count">댓글 ({comments.length})</h3>
 
-        <hr className="detail-divider" />
+                {/* 댓글 입력 폼 */}
+                {isLoggedIn && (
+                    <div className="comment-input-area">
+                        <textarea
+                            placeholder={isLoggedIn ? "댓글을 작성하세요..." : "로그인 후 댓글을 작성할 수 있습니다."}
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            disabled={!isLoggedIn}
+                        ></textarea>
+                        <button onClick={handleSubmitComment} disabled={newComment.trim() === ''}>
+                            작성
+                        </button>
+                    </div>
+                )}
 
-        {/* ⭐ 댓글 */}
-        <h3 className="comment-title">댓글</h3>
-
-        <div className="comment-input-box">
-          <textarea
-            className="comment-textarea"
-            placeholder="댓글을 입력하세요"
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
-          />
-          <button className="comment-submit-btn" onClick={handleAddComment}>
-            등록
-          </button>
-        </div>
-
-        {/* 댓글 리스트 */}
-        <div className="comment-list">
-          {comments.length === 0 && (
-            <p className="comment-empty">아직 댓글이 없습니다.</p>
-          )}
-
-          {comments.map((c) => (
-            <div key={c.id} className="comment-item">
-              <div className="comment-header">
-                <span className="comment-writer">{c.writer}</span>
-                <span className="comment-date">{c.createdAt}</span>
-              </div>
-              <p className="comment-content">{c.content}</p>
+                {/* 댓글 목록 */}
+                <div className="comments-list">
+                    {comments.map((comment) => (
+                        <div key={comment.id} className="comment-item">
+                            <div className="comment-header">
+                                <span className="comment-user">{comment.user}</span>
+                                <span className="comment-date">{comment.date}</span>
+                                {comment.isAuthor && <span className="comment-badge">작성자</span>}
+                            </div>
+                            <p className="comment-text">{comment.text}</p>
+                            {/* 댓글 수정/삭제 버튼은 필요 시 추가 */}
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
 
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

@@ -115,5 +115,22 @@
   .edit-save-btn:hover {
     background: #162955;
   }
-  
-  
+.edit-input-feedback {
+    /* 기존 스타일 유지 */
+    transition: all 0.3s ease;
+}
+.edit-input-feedback:focus {
+    border-color: #1a5697; /* 브랜드 색상으로 변경 */
+    box-shadow: 0 0 0 3px rgba(30, 94, 158, 0.2); /* 부드러운 포커스 링 */
+}
+.feedback-message {
+    font-size: 0.85em;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+    /* ⭐ 오류가 있을 때 텍스트 색상을 빨간색으로 강조 */
+    .feedback-message.error {
+        color: #e74c3c; /* 빨간색 */
+        font-weight: 500;
+    }

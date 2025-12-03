@@ -233,4 +233,60 @@
     font-size: 15px;
     color: #333;
   }
-  
+/* =================================
+   고객센터/로그아웃 버튼
+   ================================= */
+
+.mypage-section-title {
+    margin-top: 30px;
+    margin-bottom: 5px; /* 액션 목록 바로 위에 붙이기 위해 간격 축소 */
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.mypage-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; 
+    margin-bottom: 40px;
+}
+
+.action-link {
+    text-decoration: none;
+}
+
+.mypage-action-btn {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: #fff;
+    color: #333;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .mypage-action-btn:hover {
+        background-color: #f7f7f7;
+    }
+
+.mypage-actions .mypage-action-btn:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+
+/* 로그아웃 버튼 특별 스타일 (강조) */
+.logout-btn {
+    color: #e74c3c; /* 빨간색 계열로 강조 */
+}
+.mypage-realname {
+    /* 닉네임과 이메일 사이에 위치 */
+    font-size: 1.1em;
+    color: #555; /* 부드러운 회색 */
+    margin-top: -8px; /* 닉네임과의 간격 줄이기 */
+    margin-bottom: 5px; /* 이메일과의 간격 */
+}
